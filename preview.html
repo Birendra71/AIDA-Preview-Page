@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Try VidyaMagic AIDA™ | Course Preview</title>
+  <style>
+    :root {
+      --primary: #0b4ea2;
+      --primary-dark: #073b7a;
+      --teal: #06b6c9;
+      --teal-dark: #0097a7;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-soft: #f8fbff;
+      --text: #1f2937;
+      --muted: #64748b;
+      --border: #dbe5f1;
+      --danger: #dc2626;
+      --success: #0f9f6e;
+      --warning: #f59e0b;
+      --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1180px, 94%);
+      margin: 0 auto;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .brand strong {
+      font-size: 22px;
+      color: var(--primary);
+      letter-spacing: -0.4px;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 10px 24px rgba(11, 78, 162, 0.22);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-teal {
+      background: var(--teal);
+      color: #ffffff;
+    }
+
+    .btn-teal:hover {
+      background: var(--teal-dark);
+    }
+
+    .btn-light {
+      background: #ffffff;
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-link {
+      background: transparent;
+      color: var(--primary);
+      padding: 8px 4px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #073b7a, #0b4ea2 60%, #06b6c9);
+      color: #ffffff;
+      padding: 58px 0 74px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.78fr;
+      gap: 38px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 14px;
+      margin-bottom: 18px;
+      color: #e8f5ff;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -1.6px;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      color: #dbeafe;
+      font-size: 18px;
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .hero-panel {
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--text);
+      border-radius: 26px;
+      padding: 24px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+    }
+
+    .hero-panel h3 {
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+
+    .mini-steps {
+      display: grid;
+      gap: 12px;
+    }
+
+    .mini-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .mini-step span {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      flex: 0 0 auto;
+      font-size: 13px;
+    }
+
+    .section {
+      padding: 54px 0;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .form-panel {
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-soft);
+    }
+
+    .panel-header h2 {
+      color: #0f172a;
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .panel-header p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .form-body {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      font-weight: 700;
+      color: #334155;
+      font-size: 14px;
+    }
+
+    .required {
+      color: var(--danger);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--text);
+      outline: none;
+      background: #ffffff;
+    }
+
+    textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(11, 78, 162, 0.12);
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .error-text {
+      color: var(--danger);
+      font-size: 12px;
+      display: none;
+    }
+
+    .preview-shell {
+      overflow: hidden;
+    }
+
+    .preview-toolbar {
+      padding: 14px 18px;
+      background: var(--teal);
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .preview-toolbar strong {
+      font-size: 16px;
+    }
+
+    .preview-status {
+      background: rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .course-preview-frame {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      height: 600px;
+      background: #ffffff;
+    }
+
+    .preview-sidebar {
+      background: #f1f5f9;
+      border-right: 1px solid var(--border);
+      overflow: auto;
+    }
+
+    .preview-sidebar button {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      border-left: 3px solid transparent;
+      padding: 14px 18px;
+      cursor: pointer;
+      color: #334155;
+      font: inherit;
+      line-height: 1.25;
+      transition: 0.2s ease;
+    }
+
+    .preview-sidebar button.active {
+      background: #eaf2fb;
+      color: var(--primary);
+      border-left-color: var(--primary);
+      font-weight: 800;
+    }
+
+    .preview-sidebar button.locked::after {
+      content: "Enroll";
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      color: #ffffff;
+      background: var(--warning);
+      border-radius: 999px;
+      padding: 2px 8px;
+      margin-left: 8px;
+    }
+
+    .preview-content {
+      overflow: auto;
+      padding: 34px 38px;
+      position: relative;
+    }
+
+    .placeholder {
+      min-height: 600px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #ffffff, #f8fbff);
+    }
+
+    .placeholder-card {
+      max-width: 520px;
+      text-align: center;
+      padding: 34px;
+      border: 1px dashed #b9c8dc;
+      border-radius: 24px;
+      background: #ffffff;
+    }
+
+    .placeholder-card h2 {
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .placeholder-card p {
+      color: var(--muted);
+    }
+
+    .loading {
+      display: none;
+      padding: 24px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      border-radius: 18px;
+      margin-bottom: 18px;
+      font-weight: 700;
+    }
+
+    .loading.show {
+      display: block;
+    }
+
+    .course-html h1,
+    .course-html h2,
+    .course-html h3 {
+      color: var(--primary);
+      line-height: 1.22;
+      margin-bottom: 14px;
+    }
+
+    .course-html h1 {
+      color: #0f172a;
+      font-size: 48px;
+      margin-bottom: 28px;
+    }
+
+    .course-html h2 {
+      font-size: 24px;
+      margin-top: 24px;
+    }
+
+    .course-html h3 {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    .course-html p,
+    .course-html li {
+      color: #334155;
+      margin-bottom: 10px;
+    }
+
+    .course-html ul,
+    .course-html ol {
+      padding-left: 22px;
+      margin: 12px 0 18px;
+    }
+
+    .course-html .module-card,
+    .course-html .sample-card,
+    .course-html .analysis-card {
+      border: 1px solid var(--border);
+      background: #f8fbff;
+      border-radius: 18px;
+      padding: 18px;
+      margin: 16px 0;
+    }
+
+    .api-note {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: #eef6ff;
+      border: 1px solid #cde5ff;
+      color: #31577a;
+      font-size: 14px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(620px, 100%);
+      max-height: 92vh;
+      overflow: auto;
+      background: #ffffff;
+      border-radius: 26px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      color: #ffffff;
+      padding: 22px 26px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .modal-header h2 {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .modal-header p {
+      color: #dbeafe;
+      font-size: 14px;
+    }
+
+    .close-btn {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .modal-body {
+      padding: 24px 26px 28px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .consent-box {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: #f8fbff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .consent-box input {
+      width: auto;
+      margin-top: 4px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: #0f172a;
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: none;
+      z-index: 70;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.25);
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    footer {
+      padding: 30px 0;
+      color: var(--muted);
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .integration-block {
+      margin-top: 28px;
+      padding: 22px;
+      border-radius: 22px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .integration-block h3 {
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .integration-block pre {
+      overflow: auto;
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1020px) {
+      .hero-grid,
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .course-preview-frame {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+
+      .preview-sidebar {
+        display: flex;
+        overflow-x: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .preview-sidebar button {
+        min-width: 170px;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+      }
+
+      .preview-sidebar button.active {
+        border-bottom-color: var(--primary);
+      }
+
+      .preview-content {
+        min-height: 480px;
+        padding: 26px 22px;
+      }
+
+      .two-col,
+      .form-body {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-actions .btn-light {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <strong>VidyaMagic AIDA™</strong>
+        <span>AI-Powered Courseware Platform</span>
+      </a>
+      <div class="nav-actions">
+        <a href="index.html" class="btn btn-light">Back to Marketing Page</a>
+        <a href="#course-form" class="btn btn-primary">Try It</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge">Preview Course Before Full Generation</div>
+          <h1>Create a course preview with AIDA.</h1>
+          <p>
+            Enter your course topic and audience details. AIDA will generate a preview using the backend course generation API and render the returned HTML inside a React-friendly preview container.
+          </p>
+          <a href="#course-form" class="btn btn-teal">Start Preview</a>
+        </div>
+        <div class="hero-panel">
+          <h3>Preview Flow</h3>
+          <div class="mini-steps">
+            <div class="mini-step"><span>1</span><div><strong>Submit course details</strong><br />Topic, audience level, job roles, goals, and tone.</div></div>
+            <div class="mini-step"><span>2</span><div><strong>Call AIDA API</strong><br />The backend generates and returns published HTML content.</div></div>
+            <div class="mini-step"><span>3</span><div><strong>Render preview</strong><br />HTML is displayed in a React-compatible content frame.</div></div>
+            <div class="mini-step"><span>4</span><div><strong>Capture enrollment interest</strong><br />Locked modules open the enrollment/profile form.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="course-form">
+      <div class="container layout">
+        <aside class="panel form-panel">
+          <div class="panel-header">
+            <h2>Course Details</h2>
+            <p>These fields can be mapped directly to the AIDA preview API request model.</p>
+          </div>
+          <form class="form-body" id="previewForm">
+            <div class="field">
+              <label for="courseTopic">Course Topic <span class="required">*</span></label>
+              <input id="courseTopic" name="courseTopic" type="text" value="Database Management Systems" placeholder="e.g., Python for Beginners" required />
+              <div class="error-text">Course topic is required.</div>
+            </div>
+
+            <div class="field">
+              <label for="audienceLevel">Audience Level <span class="required">*</span></label>
+              <select id="audienceLevel" name="audienceLevel" required>
+                <option value="Beginner" selected>Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+                <option value="Mixed">Mixed</option>
+              </select>
+            </div>
+
+            <div class="field field-full">
+              <label for="targetAudience">Target Audience / Job Roles <span class="required">*</span></label>
+              <textarea id="targetAudience" name="targetAudience" placeholder="e.g., Students, Database Administrators, Developers" required>Students, Junior Developers, Data Analysts</textarea>
+              <div class="hint">Comma-separated roles are supported.</div>
+            </div>
+
+            <div class="field field-full">
+              <label for="learningGoals">Learning Goals <span class="required">*</span></label>
+              <textarea id="learningGoals" name="learningGoals" placeholder="What should learners achieve?" required>Help beginners understand database concepts, SQL fundamentals, data modeling, and secure database practices.</textarea>
+            </div>
+
+            <div class="field">
+              <label for="industry">Industry</label>
+              <input id="industry" name="industry" type="text" value="Information Technology" placeholder="e.g., IT, Healthcare, Finance" />
+            </div>
+
+            <div class="field">
+              <label for="styleAndTone">Style and Tone</label>
+              <select id="styleAndTone" name="styleAndTone">
+                <option value="Professional & Academic" selected>Professional & Academic</option>
+                <option value="Conversational">Conversational</option>
+                <option value="Corporate Training">Corporate Training</option>
+                <option value="Practical and Hands-on">Practical and Hands-on</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="deliveryPreference">Delivery Preference</label>
+              <select id="deliveryPreference" name="deliveryPreference">
+                <option value="Self-paced online learning" selected>Self-paced online learning</option>
+                <option value="Instructor-led training">Instructor-led training</option>
+                <option value="Blended learning">Blended learning</option>
+                <option value="Microlearning">Microlearning</option>
+              </select>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="generateBtn">Generate Course Preview</button>
+              <button type="button" class="btn btn-light" id="resetBtn">Reset Preview</button>
+            </div>
+
+            <div class="api-note field-full">
+              Assumption: API returns <strong>published HTML</strong> in <code>generatedHtml</code>. The preview area renders that HTML exactly like React card components using <code>dangerouslySetInnerHTML</code>.
+            </div>
+          </form>
+        </aside>
+
+        <section class="panel preview-shell" aria-label="Course preview">
+          <div class="preview-toolbar">
+            <strong>Generated Course Preview</strong>
+            <span class="preview-status" id="previewStatus">Not Generated</span>
+          </div>
+
+          <div class="course-preview-frame">
+            <nav class="preview-sidebar" aria-label="Generated module navigation" id="moduleNav">
+              <button class="active" type="button" data-section="overview">Preview Overview</button>
+              <button class="locked" type="button" data-module="module1">Module 1: Introduction</button>
+              <button class="locked" type="button" data-module="module2">Module 2: Core Concepts</button>
+              <button class="locked" type="button" data-module="module3">Module 3: Practical Application</button>
+              <button class="locked" type="button" data-module="final">Final Project</button>
+              <button class="locked" type="button" data-module="exam">Comprehensive Exam</button>
+            </nav>
+
+            <div class="preview-content">
+              <div class="loading" id="loadingBox">Generating preview. Please wait...</div>
+              <div id="previewContent" class="placeholder">
+                <div class="placeholder-card">
+                  <h2>Your course preview will appear here</h2>
+                  <p>Click <strong>Generate Course Preview</strong> to call the API and render the published HTML response inside this preview container.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="enrollModal" role="dialog" aria-modal="true" aria-labelledby="enrollTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="enrollTitle">Enroll to View More Modules</h2>
+          <p>Please provide your basic profile details to continue exploring the generated course preview.</p>
+        </div>
+        <button class="close-btn" type="button" id="closeModal" aria-label="Close enrollment form">×</button>
+      </div>
+
+      <form class="modal-body" id="enrollForm">
+        <div class="two-col">
+          <div class="field">
+            <label for="fullName">Full Name <span class="required">*</span></label>
+            <input id="fullName" name="fullName" type="text" required />
+          </div>
+          <div class="field">
+            <label for="businessEmail">Business Email <span class="required">*</span></label>
+            <input id="businessEmail" name="businessEmail" type="email" required />
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="field">
+            <label for="company">Company</label>
+            <input id="company" name="company" type="text" />
+          </div>
+          <div class="field">
+            <label for="role">Role</label>
+            <input id="role" name="role" type="text" />
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" />
+          </div>
+          <div class="field">
+            <label for="contactPreference">Contact Preference</label>
+            <select id="contactPreference" name="contactPreference">
+              <option value="Email" selected>Email</option>
+              <option value="Phone">Phone</option>
+              <option value="Demo Call">Demo Call</option>
+            </select>
+          </div>
+        </div>
+
+        <input type="hidden" id="selectedModule" name="selectedModule" />
+        <input type="hidden" id="previewId" name="previewId" />
+        <input type="hidden" id="ipAddress" name="ipAddress" />
+        <input type="hidden" id="geoLocation" name="geoLocation" />
+
+        <label class="consent-box">
+          <input id="consent" name="consent" type="checkbox" required />
+          <span>I agree to be contacted by the VidyaMagic team and consent to storing my submitted profile details, IP address, and approximate geolocation for follow-up and analytics purposes.</span>
+        </label>
+
+        <button class="btn btn-primary" type="submit">Submit and Continue</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Details submitted successfully.</div>
+
+  <footer>
+    <div class="container">© 2026 Vidyatech LLC. VidyaMagic AIDA™ Course Preview.</div>
+  </footer>
+
+  <script>
+    const API_ENDPOINTS = {
+      generatePreview: "/api/aida/course-preview/generate",
+      createLead: "/api/aida/preview-leads"
+    };
+
+    const previewForm = document.getElementById("previewForm");
+    const enrollForm = document.getElementById("enrollForm");
+    const previewContent = document.getElementById("previewContent");
+    const previewStatus = document.getElementById("previewStatus");
+    const loadingBox = document.getElementById("loadingBox");
+    const enrollModal = document.getElementById("enrollModal");
+    const closeModal = document.getElementById("closeModal");
+    const selectedModuleInput = document.getElementById("selectedModule");
+    const previewIdInput = document.getElementById("previewId");
+    const toast = document.getElementById("toast");
+    const resetBtn = document.getElementById("resetBtn");
+
+    let currentPreviewId = "";
+
+    function getFormData(form) {
+      return Object.fromEntries(new FormData(form).entries());
+    }
+
+    function setLoading(isLoading) {
+      loadingBox.classList.toggle("show", isLoading);
+      previewStatus.textContent = isLoading ? "Generating" : previewStatus.textContent;
+    }
+
+    function renderGeneratedHtml(html) {
+      previewContent.className = "course-html";
+      previewContent.innerHTML = html;
+    }
+
+    function renderFallbackPreview(request) {
+      return `
+        <h1>${escapeHtml(request.courseTopic)}</h1>
+        <div class="analysis-card">
+          <h2>Audience Analysis</h2>
+          <p>This course is designed for <strong>${escapeHtml(request.audienceLevel)}</strong> learners, including ${escapeHtml(request.targetAudience)}.</p>
+          <p>The recommended tone is <strong>${escapeHtml(request.styleAndTone)}</strong>, with practical examples and structured explanations aligned to the selected audience.</p>
+        </div>
+        <h2>Recommended Modules</h2>
+        <div class="module-card"><h3>Module 1: Introduction to ${escapeHtml(request.courseTopic)}</h3><p>Introduces the foundational concepts, terminology, and learning context.</p></div>
+        <div class="module-card"><h3>Module 2: Core Concepts and Principles</h3><p>Explains key concepts with examples and knowledge checks.</p></div>
+        <div class="module-card"><h3>Module 3: Practical Application</h3><p>Guides learners through real-world use cases and hands-on activities.</p></div>
+        <div class="sample-card">
+          <h2>Sample Module</h2>
+          <h3>Module 1: Introduction to ${escapeHtml(request.courseTopic)}</h3>
+          <p><strong>Learning Objective:</strong> By the end of this module, learners will be able to explain the purpose, key terminology, and practical value of ${escapeHtml(request.courseTopic)}.</p>
+          <p><strong>Lesson Flow:</strong></p>
+          <ul>
+            <li>Concept introduction</li>
+            <li>Guided explanation with examples</li>
+            <li>Short activity or reflection</li>
+            <li>Knowledge check</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    async function generatePreview(request) {
+      try {
+        const response = await fetch(API_ENDPOINTS.generatePreview, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(request)
+        });
+
+        if (!response.ok) {
+          throw new Error("Preview API failed");
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.warn("Using fallback preview because API is not available:", error.message);
+        return {
+          success: true,
+          previewId: `LOCAL-${Date.now()}`,
+          status: "Published",
+          generatedHtml: renderFallbackPreview(request)
+        };
+      }
+    }
+
+    previewForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      if (!previewForm.checkValidity()) {
+        previewForm.reportValidity();
+        return;
+      }
+
+      const request = getFormData(previewForm);
+      setLoading(true);
+      previewStatus.textContent = "Generating";
+
+      const result = await generatePreview(request);
+
+      setLoading(false);
+
+      if (result.success && result.status === "Published" && result.generatedHtml) {
+        currentPreviewId = result.previewId || `PREV-${Date.now()}`;
+        previewIdInput.value = currentPreviewId;
+        previewStatus.textContent = "Published";
+        renderGeneratedHtml(result.generatedHtml);
+      } else {
+        previewStatus.textContent = "Failed";
+        previewContent.className = "placeholder";
+        previewContent.innerHTML = `
+          <div class="placeholder-card">
+            <h2>Unable to generate preview</h2>
+            <p>${escapeHtml(result.message || "Please try again after some time.")}</p>
+          </div>
+        `;
+      }
+    });
+
+    resetBtn.addEventListener("click", function () {
+      currentPreviewId = "";
+      previewIdInput.value = "";
+      previewStatus.textContent = "Not Generated";
+      previewContent.className = "placeholder";
+      previewContent.innerHTML = `
+        <div class="placeholder-card">
+          <h2>Your course preview will appear here</h2>
+          <p>Click <strong>Generate Course Preview</strong> to call the API and render the published HTML response inside this preview container.</p>
+        </div>
+      `;
+    });
+
+    document.getElementById("moduleNav").addEventListener("click", function (event) {
+      const button = event.target.closest("button");
+      if (!button) return;
+
+      document.querySelectorAll(".preview-sidebar button").forEach(item => item.classList.remove("active"));
+      button.classList.add("active");
+
+      if (button.classList.contains("locked")) {
+        selectedModuleInput.value = button.dataset.module || button.textContent.trim();
+        previewIdInput.value = currentPreviewId;
+        openEnrollmentForm();
+      }
+    });
+
+    function openEnrollmentForm() {
+      enrollModal.classList.add("show");
+      captureGeoLocation();
+    }
+
+    function closeEnrollmentForm() {
+      enrollModal.classList.remove("show");
+    }
+
+    closeModal.addEventListener("click", closeEnrollmentForm);
+
+    enrollModal.addEventListener("click", function (event) {
+      if (event.target === enrollModal) {
+        closeEnrollmentForm();
+      }
+    });
+
+    async function captureGeoLocation() {
+      document.getElementById("ipAddress").value = "Captured by backend or edge service";
+
+      if (!navigator.geolocation) {
+        document.getElementById("geoLocation").value = "Not supported";
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          document.getElementById("geoLocation").value = JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            accuracy: position.coords.accuracy
+          });
+        },
+        () => {
+          document.getElementById("geoLocation").value = "Permission denied or unavailable";
+        },
+        { enableHighAccuracy: false, timeout: 7000, maximumAge: 600000 }
+      );
+    }
+
+    async function createLead(payload) {
+      try {
+        const response = await fetch(API_ENDPOINTS.createLead, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error("Lead API failed");
+        }
+
+        return await response.json();
+      } catch (error) {
+        console.warn("Lead API placeholder:", error.message, payload);
+        return { success: true };
+      }
+    }
+
+    enrollForm.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      if (!enrollForm.checkValidity()) {
+        enrollForm.reportValidity();
+        return;
+      }
+
+      const payload = {
+        ...getFormData(enrollForm),
+        courseInput: getFormData(previewForm),
+        submittedOn: new Date().toISOString()
+      };
+
+      const result = await createLead(payload);
+
+      if (result.success) {
+        closeEnrollmentForm();
+        showToast("Details submitted successfully. Our team will contact you soon.");
+        enrollForm.reset();
+      } else {
+        showToast(result.message || "Unable to submit details. Please try again.");
+      }
+    });
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3500);
+    }
+  </script>
+</body>
+</html>
