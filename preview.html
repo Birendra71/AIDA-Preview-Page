@@ -62,22 +62,40 @@
     }
 
     .brand {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
+	  display: flex;
+	  flex-direction: row;
+	  align-items: center;
+	  gap: 14px;
+	  line-height: 1.1;
+	}
 
-    .brand strong {
-      font-size: 22px;
-      color: var(--primary);
-      letter-spacing: -0.4px;
-    }
+	.brand-logo {
+	  width: 56px;
+	  height: 56px;
+	  object-fit: contain;
+	  display: block;
+	  flex-shrink: 0;
+	}
 
-    .brand span {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 4px;
-    }
+	.brand-text {
+	  display: flex;
+	  flex-direction: column;
+	  justify-content: center;
+	}
+
+	.brand strong {
+	  font-size: 22px;
+	  color: var(--primary);
+	  letter-spacing: -0.4px;
+	  white-space: nowrap;
+	}
+
+	.brand span {
+	  color: var(--muted);
+	  font-size: 12px;
+	  margin-top: 4px;
+	  white-space: nowrap;
+	}
 
     .nav-actions {
       display: flex;
@@ -677,17 +695,22 @@
 </head>
 <body>
   <header>
-    <div class="container nav">
-      <a class="brand" href="index.html">
+  <div class="container nav">
+    <a class="brand" href="index.html">
+      <img src="assets/Logo.png" alt="VidyaMagic AIDA Logo" class="brand-logo" />
+
+      <div class="brand-text">
         <strong>VidyaMagic AIDA™</strong>
         <span>AI-Powered Courseware Platform</span>
-      </a>
-      <div class="nav-actions">
-        <a href="index.html" class="btn btn-light">Back to Marketing Page</a>
-        <a href="#course-form" class="btn btn-primary">Try It</a>
       </div>
+    </a>
+
+    <div class="nav-actions">
+      <a href="index.html" class="btn btn-light">Back to Marketing Page</a>
+      <a href="#course-form" class="btn btn-primary">Try It</a>
     </div>
-  </header>
+  </div>
+</header>
 
   <main>
     <section class="hero">
