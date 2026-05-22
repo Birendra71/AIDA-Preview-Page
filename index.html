@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VidyaMagic AIDA™ | AI-Powered Courseware Platform</title>
+  <style>
+    :root {
+      --primary: #0b4ea2;
+      --primary-dark: #073b7a;
+      --secondary: #15a1d9;
+      --accent: #f4b400;
+      --bg: #f5f8fc;
+      --text: #1f2937;
+      --muted: #64748b;
+      --white: #ffffff;
+      --border: #dbe5f1;
+      --success: #0f9f6e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+
+    .logo strong {
+      font-size: 22px;
+      color: var(--primary);
+      letter-spacing: -0.4px;
+    }
+
+    .logo span {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s ease;
+      font-size: 15px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+      box-shadow: 0 10px 24px rgba(11, 78, 162, 0.22);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--primary);
+      background: var(--white);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0b4ea2 0%, #062f65 58%, #0f86c8 100%);
+      color: var(--white);
+      padding: 88px 0 72px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      right: -140px;
+      top: -90px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 46px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.16);
+      color: #e8f5ff;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 68px);
+      line-height: 1.02;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
+    }
+
+    .hero p {
+      -color: #dbeafe;
+      font-size: 19px;
+      max-width: 680px;
+      margin-bottom: 30px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .hero .btn-outline {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--white);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      color: #ccecff;
+      font-size: 14px;
+    }
+
+    .trust-row span::before {
+      content: "✓";
+      color: #9ff6c9;
+      margin-right: 7px;
+      font-weight: 800;
+    }
+
+    .hero-card {
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+    }
+
+    .chat-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .status-pill {
+      background: #e8f7ff;
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .chat-box {
+      background: #f8fbff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .chat-box h3 {
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .mini-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      font-size: 13px;
+    }
+
+    .section {
+      padding: 78px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 46px;
+    }
+
+    .section-title span {
+      color: var(--primary);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 13px;
+      letter-spacing: 1.2px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.12;
+      letter-spacing: -1.2px;
+      margin: 10px 0 14px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: -38px;
+      position: relative;
+      z-index: 3;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    .stat-card h3 {
+      color: var(--primary);
+      font-size: 38px;
+      margin-bottom: 6px;
+    }
+
+    .stat-card p {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e8f3ff;
+      color: var(--primary);
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      font-size: 21px;
+      margin-bottom: 10px;
+      color: #0f172a;
+    }
+
+    .card p, .card li {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.07);
+    }
+
+    .list {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .list-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: #f8fbff;
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: 16px;
+    }
+
+    .check {
+      color: var(--success);
+      font-weight: 900;
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+    }
+
+    .step {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      position: relative;
+    }
+
+    .step-number {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .step h3 {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .comparison ul {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .comparison li {
+      padding-left: 28px;
+      position: relative;
+      color: var(--muted);
+    }
+
+    .comparison .yes li::before {
+      content: "✓";
+      color: var(--success);
+      position: absolute;
+      left: 0;
+      font-weight: 900;
+    }
+
+    .comparison .no li::before {
+      content: "×";
+      color: #dc2626;
+      position: absolute;
+      left: 0;
+      font-weight: 900;
+    }
+
+    .cta {
+      background: linear-gradient(135deg, #073b7a, #0b4ea2 62%, #15a1d9);
+      color: var(--white);
+      border-radius: 34px;
+      padding: 52px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .cta h2 {
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+
+    .cta p {
+      color: #dbeafe;
+      max-width: 700px;
+    }
+
+    footer {
+      padding: 34px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      background: var(--white);
+      font-size: 14px;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .screenshot-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+    }
+
+    .screenshot-card img {
+      width: 100%;
+      display: block;
+      background: #eef4fb;
+    }
+
+    .screenshot-content {
+      padding: 20px 22px 24px;
+    }
+
+    .screenshot-content h3 {
+      color: #0f172a;
+      margin-bottom: 8px;
+      font-size: 19px;
+    }
+
+    .screenshot-content p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid, .split, .comparison, .cta {
+        grid-template-columns: 1fr;
+      }
+
+      .cards, .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .workflow {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 62px 0 56px;
+      }
+
+      .cards, .stats, .workflow, .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta {
+        padding: 34px 24px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="#top" class="logo" aria-label="VidyaMagic AIDA home">
+        <strong>VidyaMagic AIDA™</strong>
+        <span>AI-Powered Courseware Platform</span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#benefits">Benefits</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#governance">Governance</a>
+        <a href="#comparison">Why AIDA</a>
+        <a href="#try" class="btn btn-primary">Try It</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge">Human-Governed • AI-Accelerated • Outcome-Driven</div>
+          <h1>Build enterprise-ready courses faster with trusted AI-assisted instructional design.</h1>
+          <p>
+            VidyaMagic AIDA™ helps corporate L&D teams design, develop, review, and publish structured courseware using AI agents aligned with the ADDIE instructional design model.
+          </p>
+          <div class="hero-actions">
+            <a href="preview.html" class="btn btn-primary">Try It</a>
+            <a href="#workflow" class="btn btn-outline">See How It Works</a>
+          </div>
+          <div class="trust-row">
+            <span>ADDIE-based design</span>
+            <span>SME validation checkpoints</span>
+            <span>Audit-ready workflow</span>
+          </div>
+        </div>
+
+        <div class="hero-card" aria-label="AIDA preview card">
+          <div class="chat-top">
+            <strong>AIDA Course Preview</strong>
+            <span class="status-pill">Sample Flow</span>
+          </div>
+          <div class="chat-box">
+            <h3>Python for Beginners</h3>
+            <p>AIDA analyzes the course topic, target audience, learning goals, and tone to generate a guided course preview.</p>
+            <div class="mini-grid">
+              <div class="mini-card"><strong>Audience</strong><br />Beginner learners</div>
+              <div class="mini-card"><strong>Tone</strong><br />Professional & Academic</div>
+              <div class="mini-card"><strong>Modules</strong><br />Structured outline</div>
+              <div class="mini-card"><strong>Preview</strong><br />One sample module</div>
+            </div>
+          </div>
+          <div class="chat-box">
+            <h3>Generated Preview</h3>
+            <p>Audience analysis, recommended modules, and one representative module are generated before full course creation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="stats">
+        <div class="stat-card">
+          <h3>50–60%</h3>
+          <p>faster course development with AI-assisted workflows</p>
+        </div>
+        <div class="stat-card">
+          <h3>ADDIE</h3>
+          <p>instructional design model built into the platform workflow</p>
+        </div>
+        <div class="stat-card">
+          <h3>SME</h3>
+          <p>human validation gates for quality, trust, and governance</p>
+        </div>
+      </div>
+    </div>
+
+    <section id="benefits" class="section">
+      <div class="container">
+        <div class="section-title">
+          <span>Why VidyaMagic AIDA</span>
+          <h2>Designed for enterprise learning teams that need speed without losing control.</h2>
+          <p>AIDA combines AI productivity with instructional design rigor, review workflows, and enterprise governance.</p>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="icon">⚡</div>
+            <h3>Accelerated Course Creation</h3>
+            <p>Move faster from course idea to structured design, learning objectives, modules, assessments, and course materials.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🎯</div>
+            <h3>Role-Based Personalization</h3>
+            <p>Generate learning experiences that reflect audience level, job roles, learner needs, delivery style, and business context.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🛡️</div>
+            <h3>Governed AI Output</h3>
+            <p>Maintain credibility through SME review, approval checkpoints, version control, and audit-friendly course workflows.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow" class="section" style="background: #ffffff;">
+      <div class="container">
+        <div class="section-title">
+          <span>Preview Experience</span>
+          <h2>Let users try AIDA before full course generation.</h2>
+          <p>The marketing page leads users into a guided preview flow where they can submit course details and review sample output.</p>
+        </div>
+
+        <div class="workflow">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Enter Course Details</h3>
+            <p>User provides course topic, audience level, roles, goals, and preferred tone.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Analyze Audience</h3>
+            <p>AIDA creates a learner profile with needs, complexity, and instructional considerations.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Preview Modules</h3>
+            <p>The system presents a proposed module structure with short descriptions.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <h3>Generate Sample</h3>
+            <p>One sample module demonstrates tone, structure, learning objectives, and lesson flow.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">5</div>
+            <h3>Capture Interest</h3>
+            <p>Interested users submit basic profile details to enroll, request follow-up, or explore more modules.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="screenshots" class="section">
+      <div class="container">
+        <div class="section-title">
+          <span>Product Screenshots</span>
+          <h2>See how AIDA guides course creators step by step.</h2>
+          <p>Use actual screenshots from the product deck to make the page more credible and visually connected to the platform experience.</p>
+        </div>
+
+        <div class="screenshot-grid">
+          <div class="screenshot-card">
+            <img src="assets/aida-course-input.png" alt="AIDA course input screen showing course name, audience level, job titles, and style tone fields" />
+            <div class="screenshot-content">
+              <h3>Course Input Experience</h3>
+              <p>Users enter the course name, audience level, target job roles, and preferred style and tone before generating the preview.</p>
+            </div>
+          </div>
+
+          <div class="screenshot-card">
+            <img src="assets/aida-audience-analysis.png" alt="AIDA audience analysis result screen with learner profile and instructional design implications" />
+            <div class="screenshot-content">
+              <h3>Audience Analysis Output</h3>
+              <p>AIDA creates a learner profile covering knowledge level, learning style, motivation, needs, and instructional design implications.</p>
+            </div>
+          </div>
+
+          <div class="screenshot-card">
+            <img src="assets/aida-course-design.png" alt="AIDA course design screen showing course structure and module list" />
+            <div class="screenshot-content">
+              <h3>Course Structure Preview</h3>
+              <p>The platform presents a structured course design with module sections that users can review before moving further.</p>
+            </div>
+          </div>
+
+          <div class="screenshot-card">
+            <img src="assets/aida-generated-materials.png" alt="AIDA generated course materials screen with modules and learning components" />
+            <div class="screenshot-content">
+              <h3>Generated Module Preview</h3>
+              <p>Users can see generated module content and learning components, helping them understand the final course experience.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="governance" class="section">
+      <div class="container split">
+        <div>
+          <div class="section-title" style="text-align: left; margin: 0 0 24px;">
+            <span>Enterprise Governance</span>
+            <h2>Built for quality, compliance, and trust by design.</h2>
+            <p>AIDA supports governed AI adoption where human expertise remains central to course quality and approval.</p>
+          </div>
+          <a href="preview.html" class="btn btn-primary">Try AIDA Preview</a>
+        </div>
+
+        <div class="panel">
+          <div class="list">
+            <div class="list-item"><span class="check">✓</span><div><strong>Human-in-the-loop approvals</strong><br /><span>SMEs and reviewers validate course outputs before finalization.</span></div></div>
+            <div class="list-item"><span class="check">✓</span><div><strong>Version control and audit trails</strong><br /><span>Course changes and review activities can be tracked for transparency.</span></div></div>
+            <div class="list-item"><span class="check">✓</span><div><strong>Compliance-oriented workflow</strong><br /><span>Supports accuracy, bias, plagiarism, and compliance review processes.</span></div></div>
+            <div class="list-item"><span class="check">✓</span><div><strong>Enterprise integration ready</strong><br /><span>Designed to align with LMS, HRMS, and organizational learning workflows.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="comparison" class="section" style="background: #ffffff;">
+      <div class="container">
+        <div class="section-title">
+          <span>Not Just Generic AI</span>
+          <h2>AIDA is purpose-built for enterprise instructional design.</h2>
+          <p>Generic AI tools can generate content. AIDA helps manage structured course creation with learning design governance.</p>
+        </div>
+
+        <div class="comparison">
+          <div class="panel yes">
+            <h3>What VidyaMagic AIDA™ Is</h3>
+            <ul>
+              <li>Enterprise learning enablement platform</li>
+              <li>Built on the ADDIE instructional design model</li>
+              <li>AI agents mapped to learning design phases</li>
+              <li>Human and SME validation checkpoints</li>
+              <li>Governed, auditable learning workflows</li>
+            </ul>
+          </div>
+          <div class="panel no">
+            <h3>What It Is Not</h3>
+            <ul>
+              <li>Not a generic one-click content generator</li>
+              <li>Not a replacement for SMEs or instructional designers</li>
+              <li>Not autonomous AI without review gates</li>
+              <li>Not unstructured course content generation</li>
+              <li>Not designed to compromise quality for speed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split">
+        <div class="panel">
+          <h3>Business Outcomes</h3>
+          <div class="list">
+            <div class="list-item"><span class="check">✓</span><div><strong>Faster skill readiness</strong><br /><span>Reduce time from training need to learner-ready courseware.</span></div></div>
+            <div class="list-item"><span class="check">✓</span><div><strong>Reduced dependency on external vendors</strong><br /><span>Enable internal teams to build high-quality learning assets efficiently.</span></div></div>
+            <div class="list-item"><span class="check">✓</span><div><strong>Reusable modular content</strong><br /><span>Create structured courseware that can be updated, reused, and improved.</span></div></div>
+            <div class="list-item"><span class="check">✓</span><div><strong>Clearer learning ROI</strong><br /><span>Support measurable learning outcomes through structured design and review.</span></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="section-title" style="text-align: left; margin: 0;">
+            <span>Outcome-Driven Learning</span>
+            <h2>Transform course creation from a long manual process into a guided AI-assisted workflow.</h2>
+            <p>With AIDA, organizations can improve speed, consistency, governance, and learning effectiveness while keeping experts in control.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="try" class="section" style="padding-top: 30px;">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <h2>Ready to preview your first AI-assisted course?</h2>
+            <p>Enter a course topic and audience details to see how AIDA creates an audience analysis, module outline, and one sample module before full course generation.</p>
+          </div>
+          <a href="preview.html" class="btn btn-primary" style="background:#ffffff;color:#0b4ea2;">Try It</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div>© 2026 Vidyatech LLC. All rights reserved.</div>
+      <div>VidyaMagic AIDA™ | AI-Powered Courseware Platform</div>
+    </div>
+  </footer>
+</body>
+</html>
