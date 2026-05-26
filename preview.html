@@ -765,15 +765,7 @@
               <div class="hint">Comma-separated roles are supported.</div>
             </div>
 
-            <div class="field field-full">
-              <label for="learningGoals">Learning Goals <span class="required">*</span></label>
-              <textarea id="learningGoals" name="learningGoals" placeholder="What should learners achieve?" required>Help beginners understand database concepts, SQL fundamentals, data modeling, and secure database practices.</textarea>
-            </div>
 
-            <div class="field">
-              <label for="industry">Industry</label>
-              <input id="industry" name="industry" type="text" value="Information Technology" placeholder="e.g., IT, Healthcare, Finance" />
-            </div>
 
             <div class="field">
               <label for="styleAndTone">Style and Tone</label>
@@ -782,16 +774,6 @@
                 <option value="Conversational">Conversational</option>
                 <option value="Corporate Training">Corporate Training</option>
                 <option value="Practical and Hands-on">Practical and Hands-on</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="deliveryPreference">Delivery Preference</label>
-              <select id="deliveryPreference" name="deliveryPreference">
-                <option value="Self-paced online learning" selected>Self-paced online learning</option>
-                <option value="Instructor-led training">Instructor-led training</option>
-                <option value="Blended learning">Blended learning</option>
-                <option value="Microlearning">Microlearning</option>
               </select>
             </div>
 
@@ -908,8 +890,9 @@
 
   <script>
     const API_ENDPOINTS = {
-      generatePreview: "/api/aida/course-preview/generate",
-      createLead: "/api/aida/preview-leads"
+      generatePreview:   "http://10.3.0.9:8080/api/preview/generate",
+      generateRemaining: "http://10.3.0.9:8080/api/preview/generate-remaining",
+      createLead:        "http://10.3.0.9:8080/api/aida/preview-leads"
     };
 
     const previewForm = document.getElementById("previewForm");
@@ -925,6 +908,11 @@
     const resetBtn = document.getElementById("resetBtn");
 
     let currentPreviewId = "";
+    let storedGeneratedHtml = "";
+    let previewModulesData = [];
+    let moduleHtmlMap = {};
+    let storedPreviewContext = null;
+    let storedCourseInput = null;
 
     function getFormData(form) {
       return Object.fromEntries(new FormData(form).entries());
@@ -976,58 +964,67 @@
         .replaceAll("'", "&#039;");
     }
 
-    async function generatePreview(request) {
+    async function generatePreview(formData) {
+      const request = {
+        courseTopic:    formData.courseTopic    || "",
+        audienceLevel:  (formData.audienceLevel || "beginner").toLowerCase(),
+        targetAudience: formData.targetAudience || "",
+        styleTone:      formData.styleAndTone   || "professional",
+      };
+
       try {
         const response = await fetch(API_ENDPOINTS.generatePreview, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(request)
         });
-
-        if (!response.ok) {
-          throw new Error("Preview API failed");
-        }
-
-        return await response.json();
+        if (!response.ok) throw new Error("Preview API failed");
+        const json = await response.json();
+        if (json.success && json.data) return json.data;
+        throw new Error(json.message || "API returned failure");
       } catch (error) {
-        console.warn("Using fallback preview because API is not available:", error.message);
-        return {
-          success: true,
-          previewId: `LOCAL-${Date.now()}`,
-          status: "Published",
-          generatedHtml: renderFallbackPreview(request)
-        };
+        console.warn("Using fallback preview:", error.message);
+        return null;
       }
     }
 
     previewForm.addEventListener("submit", async function (event) {
       event.preventDefault();
+      if (!previewForm.checkValidity()) { previewForm.reportValidity(); return; }
 
-      if (!previewForm.checkValidity()) {
-        previewForm.reportValidity();
-        return;
-      }
-
-      const request = getFormData(previewForm);
+      const formData = getFormData(previewForm);
       setLoading(true);
       previewStatus.textContent = "Generating";
 
-      const result = await generatePreview(request);
+      const result = await generatePreview(formData);
 
       setLoading(false);
 
-      if (result.success && result.status === "Published" && result.generatedHtml) {
-        currentPreviewId = result.previewId || `PREV-${Date.now()}`;
+      if (result && result.modules && result.modules.length > 0) {
+        previewModulesData   = result.modules;
+        storedPreviewContext = result.previewContext || null;
+        storedCourseInput    = getFormData(previewForm);
+        currentPreviewId     = `PREV-${Date.now()}`;
         previewIdInput.value = currentPreviewId;
         previewStatus.textContent = "Published";
-        renderGeneratedHtml(result.generatedHtml);
+
+        moduleHtmlMap = {};
+        result.modules.forEach(function (m) {
+          if (m.html) moduleHtmlMap[m.moduleNumber] = m.html;
+        });
+
+        buildModuleSidebar(result.modules);
+
+        const previewMod = result.modules.find(function (m) { return m.isPreview; });
+        if (previewMod) renderGeneratedHtml(previewMod.html);
       } else {
-        previewStatus.textContent = "Failed";
+        previewStatus.textContent = "Unavailable";
         previewContent.className = "placeholder";
         previewContent.innerHTML = `
-          <div class="placeholder-card">
-            <h2>Unable to generate preview</h2>
-            <p>${escapeHtml(result.message || "Please try again after some time.")}</p>
+          <div class="placeholder-card" style="border-left: 4px solid #dc2626; background: #fff5f5;">
+            <h2 style="color: #dc2626;">Service Temporarily Unavailable</h2>
+            <p style="margin-top: 10px;">We're unable to generate your course preview right now. Our server may be temporarily down or experiencing high load.</p>
+            <p style="margin-top: 8px;">Please try again in a few moments. If the issue persists, contact us for assistance.</p>
           </div>
         `;
       }
@@ -1035,6 +1032,9 @@
 
     resetBtn.addEventListener("click", function () {
       currentPreviewId = "";
+      moduleHtmlMap = {};
+      storedPreviewContext = null;
+      storedCourseInput = null;
       previewIdInput.value = "";
       previewStatus.textContent = "Not Generated";
       previewContent.className = "placeholder";
@@ -1046,15 +1046,39 @@
       `;
     });
 
+    function buildModuleSidebar(modules) {
+      const nav = document.getElementById("moduleNav");
+      nav.innerHTML = "";
+
+      modules.forEach(function (mod) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = "Module " + mod.moduleNumber + ": " + mod.title;
+        btn.dataset.moduleNumber = mod.moduleNumber;
+
+        if (mod.isPreview) {
+          btn.classList.add("active");
+          btn.dataset.preview = "true";
+        } else {
+          btn.classList.add("locked");
+        }
+        nav.appendChild(btn);
+      });
+    }
+
     document.getElementById("moduleNav").addEventListener("click", function (event) {
       const button = event.target.closest("button");
       if (!button) return;
 
-      document.querySelectorAll(".preview-sidebar button").forEach(item => item.classList.remove("active"));
+      document.querySelectorAll(".preview-sidebar button").forEach(b => b.classList.remove("active"));
       button.classList.add("active");
 
-      if (button.classList.contains("locked")) {
-        selectedModuleInput.value = button.dataset.module || button.textContent.trim();
+      if (button.dataset.preview === "true") {
+        const modNum = parseInt(button.dataset.moduleNumber, 10);
+        const html = moduleHtmlMap[modNum] || storedGeneratedHtml;
+        renderGeneratedHtml(html);
+      } else if (button.classList.contains("locked")) {
+        selectedModuleInput.value = button.textContent.trim();
         previewIdInput.value = currentPreviewId;
         openEnrollmentForm();
       }
@@ -1100,6 +1124,25 @@
       );
     }
 
+    async function generateRemainingModules() {
+      try {
+        const response = await fetch(API_ENDPOINTS.generateRemaining, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            courseTopic:    storedCourseInput?.courseTopic   ?? "",
+            audienceLevel:  (storedCourseInput?.audienceLevel ?? "beginner").toLowerCase(),
+            previewContext: storedPreviewContext,
+          })
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return await response.json();
+      } catch (err) {
+        console.warn("generate-remaining failed:", err.message);
+        return null;
+      }
+    }
+
     async function createLead(payload) {
       try {
         const response = await fetch(API_ENDPOINTS.createLead, {
@@ -1129,7 +1172,7 @@
 
       const payload = {
         ...getFormData(enrollForm),
-        courseInput: getFormData(previewForm),
+        courseInput: JSON.stringify(storedCourseInput || getFormData(previewForm)),
         submittedOn: new Date().toISOString()
       };
 
@@ -1137,8 +1180,29 @@
 
       if (result.success) {
         closeEnrollmentForm();
-        showToast("Details submitted successfully. Our team will contact you soon.");
         enrollForm.reset();
+        showToast("Details submitted. Unlocking all modules...");
+
+        setLoading(true);
+        previewStatus.textContent = "Generating";
+
+        const remaining = await generateRemainingModules();
+
+        setLoading(false);
+
+        if (remaining && remaining.data && remaining.data.modules && remaining.data.modules.length > 0) {
+          remaining.data.modules.forEach(function (m) {
+            moduleHtmlMap[m.moduleNumber] = m.html;
+          });
+          document.querySelectorAll(".preview-sidebar button.locked").forEach(function (btn) {
+            btn.classList.remove("locked");
+            btn.dataset.preview = "true";
+          });
+          previewStatus.textContent = "Published";
+          showToast("All modules are now unlocked.");
+        } else {
+          showToast("Details submitted successfully. Our team will contact you soon.");
+        }
       } else {
         showToast(result.message || "Unable to submit details. Please try again.");
       }
