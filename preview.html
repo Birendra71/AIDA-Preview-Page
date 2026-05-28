@@ -6,7 +6,7 @@
   <title>Try VidyaMagic AIDA™ | Course Preview</title>
   <style>
     :root {
-      --primary: #0b4ea2;
+      --primary: #060606;
       --primary-dark: #073b7a;
       --teal: #06b6c9;
       --teal-dark: #0097a7;
@@ -270,11 +270,12 @@
     }
 
     .form-body {
-      padding: 24px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
+	  padding: 24px;
+	  display: grid;
+	  grid-template-columns: repeat(2, minmax(0, 1fr));
+	  gap: 18px;
+	  align-items: start;
+	}
 
     .field-full {
       grid-column: 1 / -1;
@@ -289,9 +290,10 @@
     }
 
     .field {
-      display: grid;
-      gap: 7px;
-    }
+	  display: grid;
+	  gap: 7px;
+	  align-self: start;
+	}
 
     .field label {
       font-weight: 700;
@@ -315,6 +317,11 @@
       outline: none;
       background: #ffffff;
     }
+	
+	select {
+	  min-height: 48px;
+	  height: 48px;
+	}
 
     textarea {
       min-height: 92px;
@@ -339,8 +346,82 @@
       display: none;
     }
 
+    .preview-placeholder-panel {
+      display: block;
+      padding: 42px 28px;
+      text-align: center;
+      background: linear-gradient(135deg, #ffffff, #f8fbff);
+      border: 1px dashed #b9c8dc;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .preview-placeholder-panel.hide {
+      display: none;
+    }
+
+    .preview-placeholder-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .preview-placeholder-icon {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 18px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef6ff;
+      color: var(--primary);
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .preview-placeholder-panel h2 {
+      color: #0f172a;
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .preview-placeholder-panel p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+
+    .service-error-panel {
+      display: none;
+      padding: 16px 28px;
+      border-left: 5px solid var(--danger);
+      background: #fff5f5;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .service-error-panel.show {
+      display: block;
+    }
+
+    .service-error-panel h2 {
+      color: var(--danger);
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    .service-error-panel p {
+      color: #7f1d1d;
+      margin-bottom: 8px;
+    }
+
     .preview-shell {
       overflow: hidden;
+      display: none;
+    }
+
+    .preview-shell.show {
+      display: block;
     }
 
     .preview-toolbar {
@@ -401,16 +482,16 @@
     }
 
     .preview-sidebar button.locked::after {
-      content: "Enroll";
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 800;
-      color: #ffffff;
-      background: var(--warning);
-      border-radius: 999px;
-      padding: 2px 8px;
-      margin-left: 8px;
-    }
+	  content: "Demo";
+	  display: inline-block;
+	  font-size: 11px;
+	  font-weight: 800;
+	  color: #ffffff;
+	  background: var(--teal);
+	  border-radius: 999px;
+	  padding: 2px 8px;
+	  margin-left: 8px;
+	}
 
     .preview-content {
       overflow: auto;
@@ -456,6 +537,41 @@
 
     .loading.show {
       display: block;
+    }
+
+    /* Dots appear one by one then all reset — timing baked into keyframes */
+    @keyframes dot-seq-1 {
+      0%        { opacity: 0; }
+      1%        { opacity: 1; }
+      96%, 100% { opacity: 0; }
+    }
+    @keyframes dot-seq-2 {
+      0%, 33%   { opacity: 0; }
+      34%       { opacity: 1; }
+      96%, 100% { opacity: 0; }
+    }
+    @keyframes dot-seq-3 {
+      0%, 66%   { opacity: 0; }
+      67%       { opacity: 1; }
+      96%, 100% { opacity: 0; }
+    }
+
+    .loading-dots span {
+      display: inline-block;
+      animation-duration: 1.5s;
+      animation-timing-function: steps(1, end);
+      animation-iteration-count: infinite;
+    }
+    .loading-dots span:nth-child(1) { animation-name: dot-seq-1; }
+    .loading-dots span:nth-child(2) { animation-name: dot-seq-2; }
+    .loading-dots span:nth-child(3) { animation-name: dot-seq-3; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .loading-spinner {
+      display: inline-block;
+      animation: spin 1s linear infinite;
     }
 
     .course-html h1,
@@ -615,6 +731,278 @@
       display: block;
     }
 
+    .toast.toast--success {
+      background: #15803d;
+    }
+
+    /* ── Inactive frame states — dim whole frame, preserve readability ── */
+    .course-preview-frame[data-state="idle"],
+    .course-preview-frame[data-state="generating"],
+    .course-preview-frame[data-state="unavailable"] {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    /* Center placeholder CTA in remaining space after skeleton tabs */
+    .course-preview-frame[data-state="idle"] .preview-content,
+    .course-preview-frame[data-state="generating"] .preview-content,
+    .course-preview-frame[data-state="unavailable"] .preview-content {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .course-preview-frame[data-state="idle"] #previewContent,
+    .course-preview-frame[data-state="generating"] #previewContent,
+    .course-preview-frame[data-state="unavailable"] #previewContent {
+      flex: 1;
+      min-height: 0 !important;
+    }
+
+    /* ── Sidebar placeholder module — no Enroll badge ── */
+    .preview-sidebar button.placeholder-module::after {
+      display: none;
+    }
+
+    /* ── Skeleton tab row ── */
+    .skeleton-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 14px 0 18px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 18px;
+    }
+    .skeleton-tabs span {
+      padding: 7px 16px;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      background: #e2e8f0;
+      color: #94a3b8;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: not-allowed;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .course-preview-frame[data-state="active"] #skeletonTabs {
+      display: none;
+    }
+
+    /* ── Placeholder CTA icon ── */
+    .placeholder-card .cta-icon {
+      font-size: 32px;
+      color: var(--primary);
+      margin-bottom: 14px;
+      opacity: 0.5;
+      line-height: 1;
+    }
+	
+	.preview-placeholder-panel {
+	  display: block;
+	  border-radius: 24px;
+	  padding: 16px;
+	  background: linear-gradient(135deg, #e8f7ff 0%, #f2f8ff 48%, #eefdf7 100%);
+	  border: 1px solid #bfe6f2;
+	  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+	}
+
+	.preview-placeholder-panel.hidden {
+	  display: none;
+	}
+
+	.preview-placeholder-content {
+	  min-height: 240px;
+	  display: grid;
+	  place-items: center;
+	  text-align: center;
+	}
+
+
+	.preview-placeholder-icon {
+	  width: 70px;
+	  height: 70px;
+	  margin: 0 auto 18px;
+	  border-radius: 22px;
+	  background: linear-gradient(135deg, var(--primary), var(--teal));
+	  color: #ffffff;
+	  display: grid;
+	  place-items: center;
+	  font-size: 34px;
+	  box-shadow: 0 14px 28px rgba(11, 78, 162, 0.2);
+	}
+
+	.preview-placeholder-card h2 {
+	  color: #0f172a;
+	  font-size: 28px;
+	  margin-bottom: 10px;
+	}
+
+	.preview-placeholder-card p {
+	  color: var(--muted);
+	  font-size: 16px;
+	  max-width: 560px;
+	  margin: 0 auto;
+	}
+
+	.generation-progress {
+	  display: none;
+	  margin-top: 28px;
+	}
+
+	.generation-progress.show {
+	  display: block;
+	}
+
+	.progress-track {
+	  width: min(520px, 100%);
+	  height: 12px;
+	  margin: 0 auto 14px;
+	  background: #dbeafe;
+	  border-radius: 999px;
+	  overflow: hidden;
+	  border: 1px solid #bfdbfe;
+	}
+
+	.progress-bar {
+	  width: 38%;
+	  height: 100%;
+	  border-radius: 999px;
+	  background: linear-gradient(90deg, var(--primary), var(--teal), #22c55e);
+	  animation: progressMove 1.4s ease-in-out infinite;
+	}
+
+	.progress-text {
+	  color: #31577a;
+	  font-weight: 700;
+	  font-size: 14px;
+	}
+
+	@keyframes progressMove {
+	  0% {
+		transform: translateX(-110%);
+	  }
+	  50% {
+		transform: translateX(70%);
+	  }
+	  100% {
+		transform: translateX(260%);
+	  }
+	}
+
+	.service-error-panel {
+	  display: none;
+	  border-radius: 24px;
+	  padding: 30px;
+	  background: linear-gradient(135deg, #fff1f2, #fff7ed);
+	  border: 1px solid #fecaca;
+	  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+	}
+
+	.service-error-panel.show {
+	  display: block;
+	}
+
+	.service-error-panel h2 {
+	  color: #dc2626;
+	  margin-bottom: 10px;
+	}
+
+	.service-error-panel p {
+	  color: #7f1d1d;
+	  margin-bottom: 8px;
+	}
+
+
+    /* Interactive placeholder and progress state */
+    .preview-placeholder-panel {
+      display: block;
+      border-radius: 24px;
+      padding: 16px;
+      background: linear-gradient(135deg, #e8f7ff 0%, #f2f8ff 48%, #eefdf7 100%);
+      border: 1px solid #bfe6f2;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    .preview-placeholder-panel.hide {
+      display: none;
+    }
+
+	.preview-placeholder-card {
+	  width: 60%;
+	  min-width: 640px;
+	  background: transparent;
+	  border: none;
+	  border-radius: 24px;
+	  padding: 16px;
+	  box-shadow: none;
+	}
+
+    .preview-placeholder-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 18px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--primary), var(--teal));
+      color: #ffffff;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      box-shadow: 0 14px 28px rgba(11, 78, 162, 0.2);
+    }
+
+    .preview-placeholder-card h2 {
+	  color: #0f172a;
+	  font-size: 28px;
+	  margin-bottom: 10px;
+	}
+
+	.preview-placeholder-card p {
+	  color: #475569;
+	  font-size: 16px;
+	  max-width: 560px;
+	  margin: 0 auto;
+	}
+
+    .generation-progress {
+      display: none;
+      margin-top: 28px;
+    }
+
+    .generation-progress.show {
+      display: block;
+    }
+
+    .progress-track {
+      width: min(520px, 100%);
+      height: 12px;
+      margin: 0 auto 14px;
+      background: #dbeafe;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid #bfdbfe;
+    }
+
+    .progress-bar {
+      width: 38%;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--primary), var(--teal), #22c55e);
+      animation: progressMove 1.4s ease-in-out infinite;
+    }
+
+    .progress-text {
+      color: #31577a;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    @keyframes progressMove {
+      0% { transform: translateX(-110%); }
+      50% { transform: translateX(70%); }
+      100% { transform: translateX(260%); }
+    }
+
     footer {
       padding: 30px 0;
       color: var(--muted);
@@ -654,11 +1042,18 @@
       }
     }
 
-    @media (max-width: 760px) {
+    @media (max-width: 768px) {
       .course-preview-frame {
         grid-template-columns: 1fr;
         height: auto;
       }
+	  
+	  @media (max-width: 768px) {
+	  .preview-placeholder-card {
+		width: 100%;
+		min-width: unset;
+	  }
+	}
 
       .preview-sidebar {
         display: flex;
@@ -718,18 +1113,18 @@
         <div>
           <div class="badge">Preview Course Before Full Generation</div>
           <h1>Create a course preview with AIDA.</h1>
-          <p>
-            Enter your course topic and audience details. AIDA will generate a preview using the backend course generation API and render the returned HTML inside a React-friendly preview container.
-          </p>
+			<p>
+			  Share a few details about the course you want to create. AIDA will quickly prepare a sample course preview so you can see the suggested structure, modules, and learning content before moving ahead.
+			</p>
           <a href="#course-form" class="btn btn-teal">Start Preview</a>
         </div>
         <div class="hero-panel">
           <h3>Preview Flow</h3>
           <div class="mini-steps">
             <div class="mini-step"><span>1</span><div><strong>Submit course details</strong><br />Topic, audience level, job roles, goals, and tone.</div></div>
-            <div class="mini-step"><span>2</span><div><strong>Call AIDA API</strong><br />The backend generates and returns published HTML content.</div></div>
-            <div class="mini-step"><span>3</span><div><strong>Render preview</strong><br />HTML is displayed in a React-compatible content frame.</div></div>
-            <div class="mini-step"><span>4</span><div><strong>Capture enrollment interest</strong><br />Locked modules open the enrollment/profile form.</div></div>
+            <div class="mini-step"><span>2</span><div><strong>AIDA prepares the preview</strong><br />The system analyzes your inputs and creates a sample course structure.</div></div>
+			<div class="mini-step"><span>3</span><div><strong>Review the course preview</strong><br />View the suggested modules and sample learning content in one place.</div></div>
+            <div class="mini-step"><span>4</span><div><strong>Explore the full demo</strong><br />Users can share basic details to continue viewing more sample modules or request a guided demo.</div></div>
           </div>
         </div>
       </div>
@@ -739,13 +1134,13 @@
       <div class="container layout">
         <aside class="panel form-panel">
           <div class="panel-header">
-            <h2>Course Details</h2>
-            <p>These fields can be mapped directly to the AIDA preview API request model.</p>
-          </div>
+			  <h2>Course Details</h2>
+			  <p>Tell AIDA what course you want to create and who the learners are. Based on your inputs, AIDA will prepare a personalized course preview with suggested modules and sample learning content.</p>
+			</div>
           <form class="form-body" id="previewForm">
             <div class="field">
               <label for="courseTopic">Course Topic <span class="required">*</span></label>
-              <input id="courseTopic" name="courseTopic" type="text" value="Database Management Systems" placeholder="e.g., Python for Beginners" required />
+              <input id="courseTopic" name="courseTopic" type="text" placeholder="e.g., Python for Beginners" required />
               <div class="error-text">Course topic is required.</div>
             </div>
 
@@ -759,57 +1154,90 @@
               </select>
             </div>
 
-            <div class="field field-full">
-              <label for="targetAudience">Target Audience / Job Roles <span class="required">*</span></label>
-              <textarea id="targetAudience" name="targetAudience" placeholder="e.g., Students, Database Administrators, Developers" required>Students, Junior Developers, Data Analysts</textarea>
-              <div class="hint">Comma-separated roles are supported.</div>
-            </div>
-
-
-
             <div class="field">
-              <label for="styleAndTone">Style and Tone</label>
-              <select id="styleAndTone" name="styleAndTone">
-                <option value="Professional & Academic" selected>Professional & Academic</option>
-                <option value="Conversational">Conversational</option>
-                <option value="Corporate Training">Corporate Training</option>
-                <option value="Practical and Hands-on">Practical and Hands-on</option>
-              </select>
-            </div>
+			  <label for="targetAudience">Target Audience / Job Roles <span class="required">*</span></label>
+			  <textarea id="targetAudience" name="targetAudience" placeholder="e.g., Students, Database Administrators, Developers" required></textarea>
+			  <div class="hint">Comma-separated roles are supported.</div>
+			</div>
+
+			<div class="field">
+			  <label for="styleAndTone">Style and Tone<span class="required">*</span></label>
+			  <select id="styleAndTone" name="styleAndTone">
+				<option value="Professional & Academic" selected>Professional & Academic</option>
+				<option value="Conversational">Conversational</option>
+				<option value="Corporate Training">Corporate Training</option>
+				<option value="Practical and Hands-on">Practical and Hands-on</option>
+			  </select>
+			</div>
 
             <div class="form-actions">
               <button type="submit" class="btn btn-primary" id="generateBtn">Generate Course Preview</button>
               <button type="button" class="btn btn-light" id="resetBtn">Reset Preview</button>
             </div>
 
-            <div class="api-note field-full">
-              Assumption: API returns <strong>published HTML</strong> in <code>generatedHtml</code>. The preview area renders that HTML exactly like React card components using <code>dangerouslySetInnerHTML</code>.
-            </div>
+
           </form>
         </aside>
 
-        <section class="panel preview-shell" aria-label="Course preview">
+        <div class="preview-placeholder-panel" id="previewPlaceholderPanel">
+          <div class="preview-placeholder-content">
+            <div class="preview-placeholder-card">
+              <div class="preview-placeholder-icon">✦</div>
+              <h2>Your Course Preview Will Appear Here</h2>
+              <p>
+                Complete the course details above and click <strong>Generate Course Preview</strong>.
+                AIDA will prepare a personalized sample course structure and preview content for you.
+              </p>
+
+              <div class="generation-progress" id="generationProgress">
+                <div class="progress-track">
+                  <div class="progress-bar"></div>
+                </div>
+                <div class="progress-text">
+                  AIDA is preparing your course preview. Please wait...
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel service-error-panel" id="serviceErrorPanel" role="alert">
+          <h2>Service Temporarily Unavailable</h2>
+          <p>We're unable to generate your course preview right now. The AIDA server may be temporarily down or experiencing high load.</p>
+          <p>Please try again in a few moments. If the issue persists, contact us for assistance.</p>
+        </div>
+
+        <section class="panel preview-shell" id="previewShell" aria-label="Course preview">
           <div class="preview-toolbar">
             <strong>Generated Course Preview</strong>
             <span class="preview-status" id="previewStatus">Not Generated</span>
           </div>
 
-          <div class="course-preview-frame">
+          <div class="course-preview-frame" id="coursePreviewFrame" data-state="idle">
             <nav class="preview-sidebar" aria-label="Generated module navigation" id="moduleNav">
-              <button class="active" type="button" data-section="overview">Preview Overview</button>
-              <button class="locked" type="button" data-module="module1">Module 1: Introduction</button>
-              <button class="locked" type="button" data-module="module2">Module 2: Core Concepts</button>
-              <button class="locked" type="button" data-module="module3">Module 3: Practical Application</button>
-              <button class="locked" type="button" data-module="final">Final Project</button>
-              <button class="locked" type="button" data-module="exam">Comprehensive Exam</button>
+              <button class="active placeholder-module" type="button" data-section="overview">Preview Overview</button>
+              <button class="locked placeholder-module" type="button" data-module="module1">Module 1: Introduction</button>
+              <button class="locked placeholder-module" type="button" data-module="module2">Module 2: Core Concepts</button>
+              <button class="locked placeholder-module" type="button" data-module="module3">Module 3: Practical Application</button>
+              <button class="locked placeholder-module" type="button" data-module="final">Final Project</button>
+              <button class="locked placeholder-module" type="button" data-module="exam">Comprehensive Exam</button>
             </nav>
 
             <div class="preview-content">
-              <div class="loading" id="loadingBox">Generating preview. Please wait...</div>
+              <div class="skeleton-tabs" id="skeletonTabs">
+                <span>Overview</span>
+                <span>Lesson Plan</span>
+                <span>Content</span>
+                <span>Activities</span>
+                <span>Assessments</span>
+                <span>Instructor Guide</span>
+              </div>
+              <div class="loading" id="loadingBox"><span class="loading-spinner">⟳</span> Generating preview. Please wait<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></div>
               <div id="previewContent" class="placeholder">
                 <div class="placeholder-card">
-                  <h2>Your course preview will appear here</h2>
-                  <p>Click <strong>Generate Course Preview</strong> to call the API and render the published HTML response inside this preview container.</p>
+                  <div class="cta-icon">✦</div>
+                  <h2>Generate a Course Preview</h2>
+                  <p>Complete the course details above and click <strong>Create My Course Preview</strong>. Your personalized course preview will appear here.</p>
                 </div>
               </div>
             </div>
@@ -823,8 +1251,8 @@
     <div class="modal">
       <div class="modal-header">
         <div>
-          <h2 id="enrollTitle">Enroll to View More Modules</h2>
-          <p>Please provide your basic profile details to continue exploring the generated course preview.</p>
+          <h2 id="enrollTitle">Continue the Demo Preview</h2>
+		  <p>Please share your basic details to view more sample modules or request a guided walkthrough from the VidyaMagic team.</p>
         </div>
         <button class="close-btn" type="button" id="closeModal" aria-label="Close enrollment form">×</button>
       </div>
@@ -874,10 +1302,10 @@
 
         <label class="consent-box">
           <input id="consent" name="consent" type="checkbox" required />
-          <span>I agree to be contacted by the VidyaMagic team and consent to storing my submitted profile details, IP address, and approximate geolocation for follow-up and analytics purposes.</span>
+          <span>I agree to share my details with the VidyaMagic team so they can contact me about the demo, product information, or follow-up discussion.</span>
         </label>
 
-        <button class="btn btn-primary" type="submit">Submit and Continue</button>
+        <button class="btn btn-primary" type="submit">Continue Demo Preview</button>
       </form>
     </div>
   </div>
@@ -889,10 +1317,16 @@
   </footer>
 
   <script>
+    // Update this one line whenever the backend moves to a new host
+    const API_BASE = "http://10.3.0.9:8080";
+    //const API_BASE = "http://localhost:5063";
+    
+
+
     const API_ENDPOINTS = {
-      generatePreview:   "http://10.3.0.9:8080/api/preview/generate",
-      generateRemaining: "http://10.3.0.9:8080/api/preview/generate-remaining",
-      createLead:        "http://10.3.0.9:8080/api/aida/preview-leads"
+      generatePreview:   `${API_BASE}/api/preview/generate`,
+      generateRemaining: `${API_BASE}/api/preview/generate-remaining`,
+      createLead:        `${API_BASE}/api/aida/preview-leads`
     };
 
     const previewForm = document.getElementById("previewForm");
@@ -906,6 +1340,11 @@
     const previewIdInput = document.getElementById("previewId");
     const toast = document.getElementById("toast");
     const resetBtn = document.getElementById("resetBtn");
+    const coursePreviewFrame = document.getElementById("coursePreviewFrame");
+    const previewShell = document.getElementById("previewShell");
+    const previewPlaceholderPanel = document.getElementById("previewPlaceholderPanel");
+    const serviceErrorPanel = document.getElementById("serviceErrorPanel");
+    const generationProgress = document.getElementById("generationProgress");
 
     let currentPreviewId = "";
     let storedGeneratedHtml = "";
@@ -918,9 +1357,42 @@
       return Object.fromEntries(new FormData(form).entries());
     }
 
+    function setPreviewState(state) {
+      coursePreviewFrame.dataset.state = state;
+
+      if (state === "idle") {
+        previewStatus.textContent = "Not Generated";
+        previewShell.classList.remove("show");
+        serviceErrorPanel.classList.remove("show");
+        previewPlaceholderPanel.classList.remove("hide");
+        generationProgress.classList.remove("show");
+        previewPlaceholderPanel.querySelector("h2").textContent = "Your Course Preview Will Appear Here";
+        previewPlaceholderPanel.querySelector("p").innerHTML = "Complete the course details above and click <strong>Generate Course Preview</strong>. AIDA will prepare a personalized sample course structure and preview content for you.";
+      } else if (state === "generating") {
+        previewStatus.textContent = "Generating...";
+        previewShell.classList.remove("show");
+        serviceErrorPanel.classList.remove("show");
+        previewPlaceholderPanel.classList.remove("hide");
+        generationProgress.classList.add("show");
+        previewPlaceholderPanel.querySelector("h2").textContent = "Generating Your Course Preview...";
+        previewPlaceholderPanel.querySelector("p").innerHTML = "AIDA is analyzing your course details and preparing a sample preview. This may take a few moments.";
+      } else if (state === "active") {
+        previewStatus.textContent = "Preview Ready";
+        generationProgress.classList.remove("show");
+        previewPlaceholderPanel.classList.add("hide");
+        serviceErrorPanel.classList.remove("show");
+        previewShell.classList.add("show");
+      } else if (state === "unavailable") {
+        previewStatus.textContent = "Unavailable";
+        previewShell.classList.remove("show");
+        previewPlaceholderPanel.classList.add("hide");
+        generationProgress.classList.remove("show");
+        serviceErrorPanel.classList.add("show");
+      }
+    }
+
     function setLoading(isLoading) {
       loadingBox.classList.toggle("show", isLoading);
-      previewStatus.textContent = isLoading ? "Generating" : previewStatus.textContent;
     }
 
     function renderGeneratedHtml(html) {
@@ -993,8 +1465,8 @@
       if (!previewForm.checkValidity()) { previewForm.reportValidity(); return; }
 
       const formData = getFormData(previewForm);
+      setPreviewState("generating");
       setLoading(true);
-      previewStatus.textContent = "Generating";
 
       const result = await generatePreview(formData);
 
@@ -1006,7 +1478,6 @@
         storedCourseInput    = getFormData(previewForm);
         currentPreviewId     = `PREV-${Date.now()}`;
         previewIdInput.value = currentPreviewId;
-        previewStatus.textContent = "Published";
 
         moduleHtmlMap = {};
         result.modules.forEach(function (m) {
@@ -1017,16 +1488,11 @@
 
         const previewMod = result.modules.find(function (m) { return m.isPreview; });
         if (previewMod) renderGeneratedHtml(previewMod.html);
+
+        setPreviewState("active");
+        showToast("Course preview generated successfully", "success");
       } else {
-        previewStatus.textContent = "Unavailable";
-        previewContent.className = "placeholder";
-        previewContent.innerHTML = `
-          <div class="placeholder-card" style="border-left: 4px solid #dc2626; background: #fff5f5;">
-            <h2 style="color: #dc2626;">Service Temporarily Unavailable</h2>
-            <p style="margin-top: 10px;">We're unable to generate your course preview right now. Our server may be temporarily down or experiencing high load.</p>
-            <p style="margin-top: 8px;">Please try again in a few moments. If the issue persists, contact us for assistance.</p>
-          </div>
-        `;
+        setPreviewState("unavailable");
       }
     });
 
@@ -1036,14 +1502,24 @@
       storedPreviewContext = null;
       storedCourseInput = null;
       previewIdInput.value = "";
-      previewStatus.textContent = "Not Generated";
       previewContent.className = "placeholder";
       previewContent.innerHTML = `
         <div class="placeholder-card">
-          <h2>Your course preview will appear here</h2>
-          <p>Click <strong>Generate Course Preview</strong> to call the API and render the published HTML response inside this preview container.</p>
+          <div class="cta-icon">✦</div>
+          <h2>Generate a Course Preview</h2>
+          <p>Fill in course details and click <strong>Generate Course Preview</strong> to see AI-generated modules, structure, and content here.</p>
         </div>
       `;
+      document.getElementById("moduleNav").innerHTML = `
+        <button class="active placeholder-module" type="button" data-section="overview">Preview Overview</button>
+        <button class="locked placeholder-module" type="button" data-module="module1">Module 1: Introduction</button>
+        <button class="locked placeholder-module" type="button" data-module="module2">Module 2: Core Concepts</button>
+        <button class="locked placeholder-module" type="button" data-module="module3">Module 3: Practical Application</button>
+        <button class="locked placeholder-module" type="button" data-module="final">Final Project</button>
+        <button class="locked placeholder-module" type="button" data-module="exam">Comprehensive Exam</button>
+      `;
+      document.getElementById("skeletonTabs").style.display = "";
+      setPreviewState("idle");
     });
 
     function buildModuleSidebar(modules) {
@@ -1181,10 +1657,10 @@
       if (result.success) {
         closeEnrollmentForm();
         enrollForm.reset();
-        showToast("Details submitted. Unlocking all modules...");
+        showToast("Details submitted. Preparing the full demo preview...");
 
         setLoading(true);
-        previewStatus.textContent = "Generating";
+        setPreviewState("generating");
 
         const remaining = await generateRemainingModules();
 
@@ -1198,8 +1674,8 @@
             btn.classList.remove("locked");
             btn.dataset.preview = "true";
           });
-          previewStatus.textContent = "Published";
-          showToast("All modules are now unlocked.");
+          setPreviewState("active");
+          showToast("Full demo preview is now ready.", "success");
         } else {
           showToast("Details submitted successfully. Our team will contact you soon.");
         }
@@ -1208,11 +1684,14 @@
       }
     });
 
-    function showToast(message) {
+    function showToast(message, type) {
       toast.textContent = message;
+      toast.className = "toast" + (type === "success" ? " toast--success" : "");
       toast.classList.add("show");
       setTimeout(() => toast.classList.remove("show"), 3500);
     }
+
+    setPreviewState("idle");
   </script>
 </body>
 </html>
